@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const prompt = require('prompt-sync')();  // For input
 const { adminDashboard } = require('../admin/adminDashboard');  // Import adminDashboard from adminDashboard.js
+const clientDashboard = require('../client/clientDashboard');  // Import clientDashboard from clientDashboard.js
 
 // Path to the users.json file
 const usersFilePath = path.join(__dirname, 'users.json');
@@ -105,15 +106,8 @@ function login() {
     if (user.role === 'admin') {
         adminDashboard(user);  // Calling the imported adminDashboard function
     } else if (user.role === 'client') {
-        clientDashboard(user);
+        clientDashboard(user);  // Calling the clientDashboard function
     }
-}
-
-// Client dashboard
-function clientDashboard(user) {
-    console.clear();
-    console.log(`Welcome to the Client Dashboard, ${user.username}.`);
-    // Add client-specific operations here
 }
 
 // Start the application

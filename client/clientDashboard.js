@@ -144,4 +144,9 @@ function displayMenuPrompt() {
 }
 
 // Start the program
-displayMenuPrompt();
+function startClientDashboard(user) {
+  console.log(`Welcome to your dashboard, ${user.username}!`);
+  displayMenuPrompt();
+}
+
+module.exports = startClientDashboard;
