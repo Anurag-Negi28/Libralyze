@@ -1,6 +1,7 @@
 const fs = require("fs");
 const readline = require("readline");
 const issueBook = require("./bookIssue"); // Import issueBook function
+const { searchBooks, SearchType } = require("./searchBooks");
 
 // Path to your JSON file
 const libraryDataPath = "../shared/libraryData.json";
@@ -36,7 +37,7 @@ let libraryData = loadLibraryData();
 function displayMenu() {
   console.log("\nLibralyze - Client Menu");
   console.log("1. Show Available Books");
-  console.log("2. Search Book by ISBN");
+  console.log("2. Search Book by ISBN, Author, Title, or Genre");
   console.log("3. Issue Book");
   console.log("4. Exit");
 }
@@ -67,20 +68,57 @@ function handleChoice(choice) {
       break;
 
     case "2":
-      rl.question("\nEnter ISBN to search: ", (isbn) => {
-        if (libraryData.has(isbn)) {
-          const book = libraryData.get(isbn);
-          console.log(`\nBook Found: ${book.title}`);
-          console.log(`Author: ${book.author}`);
-          console.log(`Genre: ${book.genre}`);
-          console.log(`Year: ${book.year}`);
-          console.log(`Quantity: ${book.quantity}`);
-        } else {
-          console.log("Book not found.");
+      console.log("\nSearch by:");
+      console.log("1. ISBN");
+      console.log("2. Author Name");
+      console.log("3. Book Name");
+      console.log("4. Genre");
+
+      rl.question("\nEnter your choice (1-4): ", (choice) => {
+        let searchType;
+        switch (choice) {
+          case "1":
+            searchType = SearchType.ISBN;
+            break;
+          case "2":
+            searchType = SearchType.AUTHOR;
+            break;
+          case "3":
+            searchType = SearchType.TITLE;
+            break;
+          case "4":
+            searchType = SearchType.GENRE;
+            break;
+          default:
+            console.log("Invalid choice.");
+            displayMenuPrompt();
+            return;
         }
-        displayMenuPrompt(); // After searching, show the menu again
+
+        rl.question(
+          `\nEnter ${searchType.toLowerCase()} to search: `,
+          (searchQuery) => {
+            try {
+              const results = searchBooks(searchType, searchQuery, libraryData);
+              if (results.length > 0) {
+                results.forEach((book) => {
+                  console.log(`\nBook Found: ${book.title}`);
+                  console.log(`Author: ${book.author}`);
+                  console.log(`Genre: ${book.genre}`);
+                  console.log(`Year: ${book.year}`);
+                  console.log(`Quantity: ${book.quantity}`);
+                });
+              } else {
+                console.log("No matches found.");
+              }
+            } catch (error) {
+              console.error(error.message);
+            }
+            displayMenuPrompt(); // Show the menu again after action
+          }
+        );
       });
-      break;
+      return; // Return to prevent `displayMenuPrompt` from executing twice
 
     case "3":
       issueBook(rl).then(() => {
