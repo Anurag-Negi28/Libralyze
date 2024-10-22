@@ -18,5 +18,15 @@
     "username": "client1",
     "password": "client1",
     "role": "client"
+  },
+  {
+    "username": "Anurag",
+    "password": "1234",
+    "role": "client"
+  },
+  {
+    "username": "Anurag Negi",
+    "password": "1234",
+    "role": "admin"
   }
 ]
