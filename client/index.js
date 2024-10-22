@@ -1,100 +1,6 @@
 const fs = require("fs");
 const readline = require("readline");
 const issueBook = require("./bookIssue"); // Import issueBook function
-// index.js
-
-const { searchBooks, SearchType } = require("./searchBooks");
-const fs = require("fs");
-const readline = require("readline");
-
-// Read and parse the library data from the JSON file
-let libraryData;
-try {
-  const data = fs.readFileSync("libraryData.json", "utf8");
-  libraryData = new Map(Object.entries(JSON.parse(data)));
-} catch (error) {
-  console.error("Error reading library data:", error);
-  process.exit(1);
-}
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-function displayMenuPrompt() {
-  console.log("\nLibrary Management System");
-  console.log("1. Search for a book");
-  console.log("2. Exit");
-  rl.question("\nEnter your choice: ", (choice) => {
-    switch (choice) {
-      case "1":
-        promptSearch();
-        break;
-      case "2":
-        rl.close();
-        break;
-      default:
-        console.log("Invalid choice.");
-        displayMenuPrompt();
-    }
-  });
-}
-
-function promptSearch() {
-  console.log("\nSearch by:");
-  console.log("1. ISBN");
-  console.log("2. Author Name");
-  console.log("3. Book Name");
-  console.log("4. Genre");
-
-  rl.question("\nEnter your choice (1-4): ", (choice) => {
-    let searchType;
-    switch (choice) {
-      case "1":
-        searchType = SearchType.ISBN;
-        break;
-      case "2":
-        searchType = SearchType.AUTHOR;
-        break;
-      case "3":
-        searchType = SearchType.TITLE;
-        break;
-      case "4":
-        searchType = SearchType.GENRE;
-        break;
-      default:
-        console.log("Invalid choice.");
-        displayMenuPrompt();
-        return;
-    }
-
-    rl.question(
-      `\nEnter ${searchType.toLowerCase()} to search: `,
-      (searchQuery) => {
-        try {
-          const results = searchBooks(searchType, searchQuery, libraryData);
-          if (results.length > 0) {
-            results.forEach((book) => {
-              console.log(`\nBook Found: ${book.title}`);
-              console.log(`Author: ${book.author}`);
-              console.log(`Genre: ${book.genre}`);
-              console.log(`Year: ${book.year}`);
-              console.log(`Quantity: ${book.quantity}`);
-            });
-          } else {
-            console.log("No matches found.");
-          }
-        } catch (error) {
-          console.error(error.message);
-        }
-        displayMenuPrompt(); // Show the menu again after action
-      }
-    );
-  });
-}
-
-displayMenuPrompt();
 
 // Path to your JSON file
 const libraryDataPath = "../shared/libraryData.json";
@@ -161,64 +67,11 @@ function handleChoice(choice) {
       break;
 
     case "2":
-      console.log("\nSearch by:");
-      console.log("1. ISBN");
-      console.log("2. Author Name");
-      console.log("3. Book Name");
-      console.log("4. Genre");
-
-      rl.question("\nEnter your choice (1-4): ", (choice) => {
-        let searchType;
-        switch (choice) {
-          case "1":
-            searchType = SearchType.ISBN;
-            break;
-          case "2":
-            searchType = SearchType.AUTHOR;
-            break;
-          case "3":
-            searchType = SearchType.TITLE;
-            break;
-          case "4":
-            searchType = SearchType.GENRE;
-            break;
-          default:
-            console.log("Invalid choice.");
-            displayMenuPrompt();
-            return;
-        }
-
-        rl.question(
-          `\nEnter ${searchType.toLowerCase()} to search: `,
-          (searchQuery) => {
-            try {
-              const results = searchBooks(searchType, searchQuery, libraryData);
-              if (results.length > 0) {
-                results.forEach((book) => {
-                  console.log(`\nBook Found: ${book.title}`);
-                  console.log(`Author: ${book.author}`);
-                  console.log(`Genre: ${book.genre}`);
-                  console.log(`Year: ${book.year}`);
-                  console.log(`Quantity: ${book.quantity}`);
-                });
-              } else {
-                console.log("No matches found.");
-              }
-            } catch (error) {
-              console.error(error.message);
-            }
-            displayMenuPrompt(); // Show the menu again after action
-          }
-        );
-      });
-      return; // Return to prevent `displayMenuPrompt` from executing twice
-    /*
-    case "2":
       rl.question("\nEnter ISBN to search: ", (isbn) => {
         if (libraryData.has(isbn)) {
           const book = libraryData.get(isbn);
           console.log(`\nBook Found: ${book.title}`);
-          console.log(`Author: 4${book.author}`);
+          console.log(`Author: ${book.author}`);
           console.log(`Genre: ${book.genre}`);
           console.log(`Year: ${book.year}`);
           console.log(`Quantity: ${book.quantity}`);
@@ -228,7 +81,7 @@ function handleChoice(choice) {
         displayMenuPrompt(); // After searching, show the menu again
       });
       break;
-*/
+
     case "3":
       issueBook(rl).then(() => {
         displayMenuPrompt(); // After issuing a book, show the menu again
@@ -246,7 +99,7 @@ function handleChoice(choice) {
   }
 }
 
-// Function to prompt the user for a menu option
+// Function to prompt user for menu input
 function displayMenuPrompt() {
   displayMenu(); // Display the menu each time before asking for user input
   rl.question("\nEnter your choice (1-4): ", handleChoice);

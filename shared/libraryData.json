@@ -194,7 +194,7 @@
       "author": "Dimitri P. Bertsekas",
       "genre": "Mathematics",
       "year": 2015,
-      "quantity": 2
+      "quantity": 3
     }
   ],
   [
@@ -205,7 +205,7 @@
       "author": "Andrew Hunt",
       "genre": "Software Development",
       "year": 1999,
-      "quantity": 8
+      "quantity": 10
     }
   ],
   [
@@ -216,7 +216,7 @@
       "author": "Luciano Ramalho",
       "genre": "Programming",
       "year": 2015,
-      "quantity": 0
+      "quantity": 1
     }
   ]
 ]

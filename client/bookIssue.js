@@ -1,20 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+
+// File path for persistent storage
 const filePath = path.join(__dirname, '../shared/libraryData.json');
 
 // Load library data from JSON file
 const loadLibraryData = () => {
-    try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        const booksArray = JSON.parse(data);
-        return new Map(booksArray); // Convert array of arrays to Map
-    } catch (error) {
-        console.error('Error loading library data:', error);
-        return new Map();
-    }
+    const data = fs.readFileSync(filePath, 'utf8');
+    return new Map(JSON.parse(data).map(([isbn, book]) => [isbn, book]));
 };
 
-let libraryData = loadLibraryData(); // Load initial data
+let libraryData = loadLibraryData();
 
 // Function to ask a question to the user
 const askQuestion = (rl, query) => {
@@ -22,16 +18,16 @@ const askQuestion = (rl, query) => {
 };
 
 // Function to save updated library data to file
-const saveLibraryData = (libraryData) => {
-    const booksArray = Array.from(libraryData.entries()); // Convert map back to array of arrays
-    fs.writeFileSync(filePath, JSON.stringify(booksArray, null, 2));
+const saveLibraryData = () => {
+    fs.writeFileSync(filePath, JSON.stringify(Array.from(libraryData.entries()), null, 2));
 };
 
 // Function to issue a book
 const issueBook = async (rl) => {
     try {
+        // Ask for the book title
         const bookTitleInput = await askQuestion(rl, 'Enter the book title: ');
-        const bookTitle = bookTitleInput.trim().toLowerCase();
+        const bookTitle = bookTitleInput.trim().toLowerCase(); // Handle case sensitivity
 
         // Find the book by matching title in the map
         let foundBook = null;
@@ -50,20 +46,22 @@ const issueBook = async (rl) => {
             console.log(`Year: ${foundBook.year}`);
             console.log(`Quantity Available: ${foundBook.quantity}`);
 
+            // Ask if the user wants to issue the book
             const response = await askQuestion(rl, 'Do you want to issue this book? (yes/no): ');
 
             if (response.toLowerCase() === 'yes') {
                 if (foundBook.quantity > 0) {
+                    // Issue the book
                     foundBook.quantity -= 1; // Decrease the quantity
                     libraryData.set(foundBook.ISBN, foundBook); // Update the map in-memory
 
-                    const issueDate = new Date().toLocaleDateString();
+                    const issueDate = new Date().toLocaleDateString(); // Get current date
+
                     console.log(`Book issued successfully on ${issueDate}`);
                     console.log(`Updated Quantity Available: ${foundBook.quantity}`);
 
                     // Save updated library data to file
-                    saveLibraryData(libraryData); // Save to JSON
-                    libraryData = loadLibraryData(); // Reload the updated library data
+                    saveLibraryData();
                 } else {
                     console.log('Sorry, this book is currently out of stock.');
                 }
