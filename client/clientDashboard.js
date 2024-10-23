@@ -2,12 +2,13 @@ const fs = require("fs");
 const readline = require("readline");
 const issueBook = require("./bookIssue"); // Import issueBook function
 const { searchBooks, SearchType } = require("./searchBooks");
+const bookReturn = require("./bookReturn.js");
 
 // Path to your JSON file
 const libraryDataPath = "../shared/libraryData.json";
 
 // Create an interface for reading user input
-const rl = readline.createInterface({
+let rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
@@ -39,7 +40,8 @@ function displayMenu() {
   console.log("1. Show Available Books");
   console.log("2. Search Book by ISBN, Author, Title, or Genre");
   console.log("3. Issue Book");
-  console.log("4. Exit");
+  console.log("4. Return Book");
+  console.log("5. Exit");
 }
 
 // Function to display all available books
@@ -127,6 +129,12 @@ function handleChoice(choice) {
       break;
 
     case "4":
+      bookReturn(rl, () => {
+        displayMenuPrompt(); // After returning a book, show the menu again
+      });
+      return;
+
+    case "5":
       rl.close(); // Close the readline interface
       break;
 
@@ -140,7 +148,7 @@ function handleChoice(choice) {
 // Function to prompt user for menu input
 function displayMenuPrompt() {
   displayMenu(); // Display the menu each time before asking for user input
-  rl.question("\nEnter your choice (1-4): ", handleChoice);
+  rl.question("\nEnter your choice (1-5): ", handleChoice);
 }
 
 // Start the program
