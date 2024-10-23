@@ -28,5 +28,10 @@
     "username": "Anurag Negi",
     "password": "1234",
     "role": "admin"
+  },
+  {
+    "username": "Dhruv_3103",
+    "password": "Dhruv_3103",
+    "role": "client"
   }
 ]
