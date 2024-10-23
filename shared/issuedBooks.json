@@ -18,8 +18,22 @@
       "username": "Anurag",
       "bookISBN": "978-0-321-63536-7",
       "issueDate": "2024-10-23T06:04:51.337Z",
-      "returnDate": null,
-      "count": 2
+      "returnDate": "2024-10-23T06:53:26.428Z",
+      "count": 1
+    },
+    {
+      "username": "Ashwin",
+      "bookISBN": "978-0-596-52068-7",
+      "issueDate": "2024-10-23T14:24:27.556Z",
+      "returnDate": "2024-10-23T14:12:04.870Z",
+      "count": 1
+    },
+    {
+      "username": "Ashwin",
+      "bookISBN": "978-3-16-148410-0",
+      "issueDate": "2024-10-23T14:29:24.781Z",
+      "returnDate": "2024-10-23T14:30:17.229Z",
+      "count": 0
     }
   ]
 }
