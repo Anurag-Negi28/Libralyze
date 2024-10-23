@@ -1,12 +1,6 @@
 {
   "records": [
     {
-      "username": "client123",
-      "bookISBN": "978-0-596-15759-8",
-      "issueDate": "2024-03-20T10:30:00Z",
-      "returnDate": null
-    },
-    {
       "username": "Dhruv_3103",
       "bookISBN": "978-3-16-148410-0",
       "issueDate": "2024-10-23T05:49:47.876Z",
@@ -17,6 +11,13 @@
       "username": "Dhruv_3103",
       "bookISBN": "978-0-07-042807-2",
       "issueDate": "2024-10-23T05:54:10.465Z",
+      "returnDate": null,
+      "count": 2
+    },
+    {
+      "username": "Anurag",
+      "bookISBN": "978-0-321-63536-7",
+      "issueDate": "2024-10-23T06:04:51.337Z",
       "returnDate": null,
       "count": 2
     }
