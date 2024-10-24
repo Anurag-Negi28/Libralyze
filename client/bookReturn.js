@@ -1,11 +1,21 @@
 const fs = require("fs");
 
 function readJSONFile(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  try {
+    const data = fs.readFileSync(filePath, "utf8");
+    return data ? JSON.parse(data) : { records: [] };
+  } catch (error) {
+    console.error(`Error reading JSON file at ${filePath}:`, error);
+    return { records: [] };
+  }
 }
 
 function writeJSONFile(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+  } catch (error) {
+    console.error(`Error writing JSON file at ${filePath}:`, error);
+  }
 }
 
 function listIssuedBooks(username, issuedBooks) {
@@ -14,33 +24,57 @@ function listIssuedBooks(username, issuedBooks) {
   );
 }
 
-function returnBook(username, bookISBN, issuedBooks, libraryData) {
+function returnBook(
+  username,
+  bookISBN,
+  issuedBooks,
+  libraryData,
+  returnedBooks
+) {
   // Update issuedBooks.json
-  const issuedBook = issuedBooks.records.find(
+  const issuedBookIndex = issuedBooks.records.findIndex(
     (record) =>
       record.username === username &&
       record.bookISBN === bookISBN &&
       record.returnDate === null
   );
-  if (issuedBook) {
+  if (issuedBookIndex !== -1) {
+    const issuedBook = issuedBooks.records[issuedBookIndex];
     issuedBook.returnDate = new Date().toISOString();
-    issuedBook.count -= 1;
+
+    // Add to returnedBooks.json
+    returnedBooks.records.push({
+      username: issuedBook.username,
+      bookISBN: issuedBook.bookISBN,
+      issueDate: issuedBook.issueDate,
+      returnDate: issuedBook.returnDate,
+    });
+  } else {
+    console.log(
+      "Error: No matching issued book found or book already returned."
+    );
+    return;
   }
 
   // Update libraryData.json
   const libraryBook = libraryData.find((book) => book[0] === bookISBN);
   if (libraryBook) {
     libraryBook[1].quantity += 1;
+  } else {
+    console.log("Error: Book not found in library data.");
+    return;
   }
 
   writeJSONFile("issuedBooks.json", issuedBooks);
   writeJSONFile("libraryData.json", libraryData);
+  writeJSONFile("returnedBooks.json", returnedBooks);
 }
 
 function main(rl, callback) {
   rl.question("Enter your username: ", (username) => {
     const issuedBooks = readJSONFile("issuedBooks.json");
     const libraryData = readJSONFile("libraryData.json");
+    const returnedBooks = readJSONFile("returnedBooks.json");
 
     const userBooks = listIssuedBooks(username, issuedBooks);
     if (userBooks.length === 0) {
@@ -63,7 +97,11 @@ function main(rl, callback) {
       "Enter the number of the book you want to return: ",
       (bookNumber) => {
         const bookIndex = parseInt(bookNumber) - 1;
-        if (bookIndex < 0 || bookIndex >= userBooks.length) {
+        if (
+          isNaN(bookIndex) ||
+          bookIndex < 0 ||
+          bookIndex >= userBooks.length
+        ) {
           console.log("Invalid selection.");
           callback();
           return;
@@ -76,7 +114,13 @@ function main(rl, callback) {
           `Are you sure you want to return "${libraryBook[1].title}"? (yes/no): `,
           (confirmation) => {
             if (confirmation.toLowerCase() === "yes") {
-              returnBook(username, bookISBN, issuedBooks, libraryData);
+              returnBook(
+                username,
+                bookISBN,
+                issuedBooks,
+                libraryData,
+                returnedBooks
+              );
               const returnDate = new Date().toISOString();
               console.log(`Book "${libraryBook[1].title}" returned.`);
               console.log(
