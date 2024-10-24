@@ -31,7 +31,7 @@ function returnBook(
   libraryData,
   returnedBooks
 ) {
-  // Update issuedBooks.json
+  // Find the issued book record
   const issuedBookIndex = issuedBooks.records.findIndex(
     (record) =>
       record.username === username &&
@@ -49,6 +49,9 @@ function returnBook(
       issueDate: issuedBook.issueDate,
       returnDate: issuedBook.returnDate,
     });
+
+    // Remove the returned book from issuedBooks.json
+    issuedBooks.records.splice(issuedBookIndex, 1);
   } else {
     console.log(
       "Error: No matching issued book found or book already returned."
