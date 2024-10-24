@@ -56,7 +56,13 @@ Libralyze is a library management system designed to streamline the process of i
 
 ### Start the Application:
 
-Run the application and follow the on-screen prompts to sign up or log in. Based on your role (admin or client), you will be redirected to the appropriate dashboard.
+Run the application using the following command:
+
+```bash
+node shared/index.js
+```
+
+And follow the on-screen prompts to sign up or log in. Based on your role (admin or client), you will be redirected to the appropriate dashboard.
 
 ### Client Operations:
 
