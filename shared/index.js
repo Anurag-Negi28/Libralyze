@@ -11,7 +11,8 @@ const usersFilePath = path.join(__dirname, "users.json");
 function readUsers() {
   try {
     const data = fs.readFileSync(usersFilePath, "utf8");
-    return JSON.parse(data); // Return as an array of user objects
+    return JSON.parse(data); // parses JSON string to javascript object
+    //Return as an array of user objects
   } catch (error) {
     console.error("Error reading user data:", error);
     return []; // Return an empty array if file doesn't exist

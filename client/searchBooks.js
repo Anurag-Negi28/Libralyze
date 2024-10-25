@@ -1,10 +1,4 @@
 // searchBooks.js
-
-/**
- * Enum for search types
- * @readonly
- * @enum {string}
- */
 const SearchType = {
   ISBN: "ISBN",
   TITLE: "title",
@@ -12,13 +6,6 @@ const SearchType = {
   GENRE: "genre",
 };
 
-/**
- * Function to search books in the library data
- * @param {string} searchType - The type of search ('ISBN', 'title', 'author', 'genre')
- * @param {string} searchQuery - The search query string
- * @param {Map<string, object>} booksData - The library data (HashMap with ISBN as key)
- * @returns {Array<object>} - Array of matching book objects
- */
 function searchBooks(searchType, searchQuery, booksData) {
   if (!searchType || !searchQuery || !booksData) {
     throw new Error(
