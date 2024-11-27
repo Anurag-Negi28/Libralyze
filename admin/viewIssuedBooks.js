@@ -20,15 +20,29 @@ function viewIssuedBooks() {
         if (issuedBooks.length === 0) {
             console.log("\nNo books are currently issued.");
         } else {
+            // Grouping issued books by username
+            const groupedData = issuedBooks.reduce((result, book) => {
+                if (!result[book.username]) {
+                    result[book.username] = [];
+                }
+                result[book.username].push(book);
+                return result;
+            }, {});
+
             console.log("\nCurrently Issued Books:");
-            issuedBooks.forEach((entry, index) => {
-                console.log(`\n${index + 1}.`);
-                console.log(`Username: ${entry.username}`);
-                console.log(`Book ISBN: ${entry.bookISBN}`);
-                console.log(`Issue Date: ${new Date(entry.issueDate).toLocaleString()}`);
-                console.log(`Return Date: ${entry.returnDate ? new Date(entry.returnDate).toLocaleString() : "Not Returned"}`);
-                console.log(`Count: ${entry.count}`);
-            });
+            let counter = 1;
+
+            // Iterating through each user and displaying their issued books
+            for (const [username, books] of Object.entries(groupedData)) {
+                console.log(`\n${counter}. Username: ${username}`);
+                books.forEach((book) => {
+                    console.log(`   - Book ISBN: ${book.bookISBN}`);
+                    console.log(`     Issue Date: ${new Date(book.issueDate).toLocaleString()}`);
+                    console.log(`     Return Date: ${book.returnDate ? new Date(book.returnDate).toLocaleString() : "Not Returned"}`);
+                    console.log(`     Count: ${book.count}`);
+                });
+                counter++;
+            }
         }
     } catch (error) {
         console.error("\nError reading issued books data:", error);
