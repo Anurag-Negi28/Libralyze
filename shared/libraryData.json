@@ -29,7 +29,18 @@
       "author": "Thomas H. Cormen",
       "genre": "Computer Science",
       "year": 2009,
-      "quantity": 5
+      "quantity": 3
+    }
+  ],
+  [
+    "978-3-16-148411-0",
+    {
+      "ISBN": "978-3-16-148411-0",
+      "title": "Pragmatic Knowledge Discovery",
+      "author": "Thomas H. Cormen",
+      "genre": "Computer Science",
+      "year": 2009,
+      "quantity": 3
     }
   ],
   [
@@ -62,7 +73,7 @@
       "author": "Abraham Silberschatz",
       "genre": "Operating Systems",
       "year": 2008,
-      "quantity": 4
+      "quantity": 5
     }
   ],
   [

@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+//reading from JSON file
 function readJSONFile(filePath) {
   try {
     const data = fs.readFileSync(filePath, "utf8");
@@ -9,7 +9,7 @@ function readJSONFile(filePath) {
     return { records: [] };
   }
 }
-
+//WritIng to JSON filE
 function writeJSONFile(filePath, data) {
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
@@ -17,7 +17,7 @@ function writeJSONFile(filePath, data) {
     console.error(`Error writing JSON file at ${filePath}:`, error);
   }
 }
-
+//List Issued Books
 function listIssuedBooks(username, issuedBooks) {
   return issuedBooks.records.filter(
     (record) => record.username === username && record.returnDate === null
