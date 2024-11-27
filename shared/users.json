@@ -43,5 +43,10 @@
     "username": "Ankit",
     "password": "7894",
     "role": "client"
+  },
+  {
+    "username": "anshika12",
+    "password": "12345",
+    "role": "client"
   }
 ]
