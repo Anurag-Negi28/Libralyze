@@ -50,7 +50,7 @@ function showWelcomeScreen() {
   console.log("1. Signup");
   console.log("2. Login");
   const choice = prompt("Enter your choice (1 or 2): "); // Use prompt-sync for input
-  if (choice === "1") 
+  if (choice === "1")
     signup();
   else if (choice === "2")
     login();
@@ -123,11 +123,13 @@ function login() {
   console.log(`Login successful! Welcome, ${user.username}.`);
 
   // Redirect based on role
-  if (user.role === "admin") 
-    adminDashboard(user); 
-  else if (user.role === "client") 
-    clientDashboard(user); 
+  if (user.role === "admin")
+    adminDashboard(user);
+  else if (user.role === "client")
+    clientDashboard(user);
 }
 
 // Start the application
 showWelcomeScreen();
+
+module.exports = { showWelcomeScreen };

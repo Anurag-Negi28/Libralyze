@@ -196,5 +196,16 @@
       "year": 2012,
       "quantity": 5
     }
+  ],
+  [
+    "972-5-453-343232-6",
+    {
+      "ISBN": "972-5-453-343232-6",
+      "title": "Metastasis of life",
+      "author": "Joel",
+      "genre": "Fiction",
+      "year": 2002,
+      "quantity": 3
+    }
   ]
 ]
