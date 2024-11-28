@@ -34,6 +34,13 @@
       "issueDate": "2024-11-28T20:43:47.054Z",
       "returnDate": null,
       "count": 4
+    },
+    {
+      "username": "anshi",
+      "bookISBN": "978-0-134-49800-8",
+      "issueDate": "2024-11-28T21:04:33.548Z",
+      "returnDate": null,
+      "count": 1
     }
   ]
 }
