@@ -27,6 +27,13 @@
       "issueDate": "2024-10-25T08:03:33.277Z",
       "returnDate": null,
       "count": 1
+    },
+    {
+      "username": "Ashwin",
+      "bookISBN": "978-0-321-83428-4",
+      "issueDate": "2024-11-28T20:26:20.616Z",
+      "returnDate": null,
+      "count": 3
     }
   ]
 }

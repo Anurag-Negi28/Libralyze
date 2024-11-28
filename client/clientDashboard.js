@@ -123,10 +123,61 @@ function handleChoice(choice) {
       return; // Return to prevent `displayMenuPrompt` from executing twice
 
     case "3":
-      issueBook(rl).then(() => {
-        displayMenuPrompt(); // After issuing a book, show the menu again
+      console.log("\nSearch by:");
+      console.log("1. ISBN");
+      console.log("2. Author Name");
+      console.log("3. Book Name");
+      console.log("4. Genre");
+
+      rl.question("\nEnter your choice (1-4): ", (choice) => {
+        let searchType;
+        switch (choice) {
+          case "1":
+            searchType = SearchType.ISBN;
+            break;
+          case "2":
+            searchType = SearchType.AUTHOR;
+            break;
+          case "3":
+            searchType = SearchType.TITLE;
+            break;
+          case "4":
+            searchType = SearchType.GENRE;
+            break;
+          default:
+            console.log("Invalid choice.");
+            displayMenuPrompt();
+            return;
+        }
+
+        rl.question(
+          `\nEnter ${searchType.toLowerCase()} to search: `,
+          (searchQuery) => {
+            try {
+              const results = searchBooks(searchType, searchQuery, libraryData);
+              if (results.length > 0) {
+                results.forEach((book) => {
+                  console.log(`\nBook Found: ${book.title}`);
+                  console.log(`Author: ${book.author}`);
+                  console.log(`Genre: ${book.genre}`);
+                  console.log(`Year: ${book.year}`);
+                  console.log(`Quantity: ${book.quantity}`);
+                });
+                issueBook(rl).then(() => {
+                  displayMenuPrompt(); // After issuing a book, show the menu again
+                });
+              } else {
+                console.log("No matches found.");
+                displayMenuPrompt(); // Show the menu again after action
+              }
+            } catch (error) {
+              console.error(error.message);
+              displayMenuPrompt(); // Show the menu again after action
+            }
+          }
+        );
       });
-      break;
+      return; // Return to prevent `displayMenuPrompt` from executing twice
 
     case "4":
       bookReturn(rl, () => {
