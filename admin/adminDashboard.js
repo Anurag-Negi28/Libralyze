@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const prompt = require("prompt-sync")();
-const { showWelcomeScreen } = require("../shared/index");
 const viewIssuedBooks = require("./viewIssuedBooks");
 const manageBooks = require("./manageBooks");
 
@@ -73,8 +72,7 @@ function adminDashboard(user) {
 
             case "4":
                 console.log("\nLogging out...");
-                showWelcomeScreen();
-                break;
+                process.exit(0);
 
             default:
                 console.log("Invalid choice. Please try again.");
